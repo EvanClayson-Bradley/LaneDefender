@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 541255245907801526}
   - component: {fileID: 7670113008116906357}
   - component: {fileID: 224365363510019531}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: snail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

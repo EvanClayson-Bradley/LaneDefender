@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
 
@@ -38,8 +39,18 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Hit();
-        StartCoroutine(Explosion(collision.transform.position));
+        switch (collision.gameObject.layer)
+        {
+            case 3:
+                Destroy(gameObject);
+                gameController.LoseLife();
+                break;
+            case 6:
+                Hit();
+                StartCoroutine(Explosion(collision.transform.position));
+                break;
+            default: break;
+        }
     }
 
     /// <summary>

@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameController gameController;
     [SerializeField] private GameObject rocket;
+    [SerializeField] private GameObject explosion;
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private int moveSpeed;
     private float moveDirection;
@@ -24,8 +25,10 @@ public class PlayerController : MonoBehaviour
 
             if (isShooting && canShoot)
             {
+                Vector2 barrelPos = new Vector2(transform.position.x + 0.6f, transform.position.y + 0.3f);
                 //spawns rocket & starts cooldown
-                Instantiate(rocket, transform.position, Quaternion.identity);
+                Instantiate(rocket, barrelPos, Quaternion.identity);
+                StartCoroutine(Explosion(barrelPos));
                 StartCoroutine(ShootCooldown());
             }
         }
@@ -57,5 +60,12 @@ public class PlayerController : MonoBehaviour
         canShoot = false;
         yield return new WaitForSeconds(0.5f);
         canShoot = true;
+    }
+    public IEnumerator Explosion(Vector3 pos)
+    {
+        GameObject temp = Instantiate(explosion, pos, Quaternion.identity);
+        temp.GetComponent<SpriteRenderer>().sortingOrder = 100;
+        yield return new WaitForSeconds(0.3f);
+        Destroy(temp);
     }
 }

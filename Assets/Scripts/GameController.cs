@@ -37,6 +37,7 @@ public class GameController : MonoBehaviour
         if (!isPlaying)
         {
             isPlaying = true;
+            lives = 3;
             foreach (var enemy in FindObjectsOfType<EnemyController>())
             {
                 Destroy(enemy.gameObject);
