@@ -7,6 +7,7 @@ public class RocketController : MonoBehaviour
     [SerializeField] private int rocketSpeed;
     [SerializeField] private GameObject explosion;
     private Animator anim;
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -14,18 +15,18 @@ public class RocketController : MonoBehaviour
 
     void Update()
     {
+        //moves rocket
         transform.Translate(Vector2.right * rocketSpeed * Time.deltaTime);
+
+        //deletes rocket if off screen to the right
+        if (transform.position.x > 11)
+        {
+            Destroy(gameObject);
+        }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        StartCoroutine(Explode(collision));
-    }
-    public IEnumerator Explode(Collision2D collision)
-    {
-        GameObject temp = Instantiate(explosion, collision.transform.position, Quaternion.identity);
+        //destroy rocket when collides
         Destroy(gameObject);
-        temp.GetComponent<SpriteRenderer>().sortingOrder = 100;
-        yield return new WaitForSeconds(1f);
-        Destroy(temp);
     }
 }
