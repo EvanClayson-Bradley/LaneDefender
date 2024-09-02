@@ -124,6 +124,8 @@ MonoBehaviour:
   maxHealth: 5
   score: 0
   explosion: {fileID: 419930844658716853, guid: 9f001471c0caf604983cea85f39d7ef7, type: 3}
+  hitSound: {fileID: 8300000, guid: e6386733591352340b7c0f89cac4ec9c, type: 3}
+  deathSound: {fileID: 8300000, guid: afeec20f26fe1554aa0cd439431c9124, type: 3}
 --- !u!61 &224365363510019531
 BoxCollider2D:
   m_ObjectHideFlags: 0

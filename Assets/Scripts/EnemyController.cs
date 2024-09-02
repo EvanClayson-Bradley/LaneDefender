@@ -16,6 +16,9 @@ public class EnemyController : MonoBehaviour
     private GameController gameController;
     private int health;
     private bool shouldMove = true;
+
+    [SerializeField] private AudioClip hitSound;
+    [SerializeField] private AudioClip deathSound;
     void Start()
     {
         gameController = FindObjectOfType<GameController>();
@@ -77,6 +80,7 @@ public class EnemyController : MonoBehaviour
     /// <returns></returns>
     public IEnumerator Die()
     {
+        AudioSource.PlayClipAtPoint(deathSound, transform.position);
         gameController.AddScore(100);
         GetComponent<BoxCollider2D>().enabled = false;
         anim.SetTrigger("Die");
@@ -90,6 +94,7 @@ public class EnemyController : MonoBehaviour
     /// <returns></returns>
     public IEnumerator HitAnim()
     {
+        AudioSource.PlayClipAtPoint(hitSound, transform.position);
         anim.SetTrigger("Hit");
         shouldMove = false;
         yield return new WaitForSeconds(1.2f);

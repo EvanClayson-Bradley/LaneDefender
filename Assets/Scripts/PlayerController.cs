@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class PlayerController : MonoBehaviour
     private bool canShoot = true;
     private bool isShooting = false;
 
+    [SerializeField] private AudioClip shootSound;
+
     void Update()
     {
         if (gameController.isPlaying)
@@ -28,6 +31,7 @@ public class PlayerController : MonoBehaviour
                 Vector2 barrelPos = new Vector2(transform.position.x + 0.6f, transform.position.y + 0.3f);
                 //spawns rocket & starts cooldown
                 Instantiate(rocket, barrelPos, Quaternion.identity);
+                AudioSource.PlayClipAtPoint(shootSound, barrelPos);
                 StartCoroutine(Explosion(barrelPos));
                 StartCoroutine(ShootCooldown());
             }
@@ -67,5 +71,10 @@ public class PlayerController : MonoBehaviour
         temp.GetComponent<SpriteRenderer>().sortingOrder = 100;
         yield return new WaitForSeconds(0.3f);
         Destroy(temp);
+    }
+
+    void OnDebugRestart()
+    {
+        SceneManager.LoadScene(0);
     }
 }

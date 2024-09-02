@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 
 public class GameController : MonoBehaviour
@@ -21,6 +22,10 @@ public class GameController : MonoBehaviour
     public bool isPlaying = false;
     private float spawnRate = 3f;
 
+    [SerializeField] private AudioClip lifeLostSound;
+    [SerializeField] private AudioClip deathSound;
+
+    [SerializeField] private AudioSource bgm;
     void Start()
     {
         highScoreText.text = "High Score: " + PlayerPrefs.GetInt("highScore", 0);
@@ -36,6 +41,7 @@ public class GameController : MonoBehaviour
     {
         if (!isPlaying)
         {
+            bgm.Play();
             isPlaying = true;
             lives = 3;
             foreach (var enemy in FindObjectsOfType<EnemyController>())
@@ -61,6 +67,8 @@ public class GameController : MonoBehaviour
         lives--;
         if (lives <= 0)
         {
+            bgm.Stop();
+            AudioSource.PlayClipAtPoint(deathSound, transform.position);
             isPlaying = false;
             StopAllCoroutines();
             endScoreText.text = "Score: " + score;
@@ -75,6 +83,7 @@ public class GameController : MonoBehaviour
         else
         {
             livesText.text = "Lives: " + lives;
+            AudioSource.PlayClipAtPoint(lifeLostSound, transform.position);
         }
     }
 
